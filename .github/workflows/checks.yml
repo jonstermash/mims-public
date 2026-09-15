@@ -16,6 +16,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          # Check 5 compares the version against the last released state, which
+          # means it needs history and the default branch to compare against. The
+          # default shallow checkout has neither, and the check degrades to a
+          # skipped WARN rather than failing — a green build that checked nothing.
+          fetch-depth: 0
       # No setup steps: bash and python3 are both preinstalled on the runner, and
       # this repo has no dependencies to install.
       - run: scripts/check-repo.sh
