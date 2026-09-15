@@ -4,6 +4,17 @@ All notable changes to this project are recorded here. Format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); this project uses
 [semantic versioning](https://semver.org/).
 
+## [1.9.0]
+
+### Changed
+- **`mims-strategy-planner` is now `strategy-planner`.** The prefix repeated what the marketplace
+  already says — every skill here ships from `mims-public`, so carrying it in one skill's
+  invocation name marked nothing. Invoke it as `/strategy-planner`. The 1.8.0 name was live for
+  minutes, so this breaks nobody in practice, but it is a rename of the invocation surface rather
+  than a fix, which is why it takes a minor bump. The directory, the `name:` in frontmatter, both
+  manifest descriptions, and the README all move together — a `name:` that disagrees with its
+  directory fails `check-repo.sh`, and a stale README teaches the wrong command.
+
 ## [1.8.0]
 
 ### Added
