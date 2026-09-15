@@ -1,5 +1,5 @@
 ---
-name: mims-strategy-planner
+name: strategy-planner
 description: >-
   Build a strategy for any brand, product, or idea from the ground up — a top-down cascade of five
   stages (Goal → Objectives → Audiences → Messaging → Tactics), each grounded in evidence and
