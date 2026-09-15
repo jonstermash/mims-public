@@ -4,6 +4,29 @@ All notable changes to this project are recorded here. Format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); this project uses
 [semantic versioning](https://semver.org/).
 
+## [1.8.0]
+
+### Added
+- **`mims-strategy-planner`: a third skill.** A top-down cascade — Goal → Objectives → Audiences →
+  Messaging → Tactics — run in order, each stage grounded in tagged evidence and locked with an
+  owner and a date before the next one opens. It exists because the usual failure isn't a missing
+  idea, it's a tactic list nobody can trace back to a decision: the Stage 5 coverage check reads
+  the tactic map both ways, so an audience with no tactic and a tactic with no audience are both
+  visible rather than merely absent.
+- **A way back up the cascade.** Locks that can't be reopened get ignored the first time evidence
+  contradicts them. "Reopening a locked stage" names the triggers, unlocks only the highest stage
+  the evidence actually breaks, marks what's below it under review instead of deleting it, and
+  logs who decided. A single data point is grounds to investigate, not to unlock.
+- **Five references and two doc templates.** `confidence-tags.md`, `messaging-by-audience-type.md`,
+  `expansion-ladder.md`, `asset-qa.md`, and `persona-review.md` load at the stage that needs them;
+  `assets/strategy-doc-template.md` and `assets/status-template.md` are copied at the start of a
+  run. The STATUS doc is what makes a run survive a context reset — a multi-session strategy that
+  lives in chat history is a strategy you get to rebuild from memory.
+
+### Changed
+- **Both manifests name three skills,** and the plugin keywords now cover strategy, positioning,
+  and messaging.
+
 ## [1.7.0]
 
 ### Fixed
