@@ -1,8 +1,8 @@
 {
   "name": "make-it-make-sense",
   "displayName": "Make It Make Sense",
-  "description": "A growing set of reusable Agent Skills. Currently includes make-it-make-sense and syco-killer.",
-  "version": "1.7.0",
+  "description": "A growing set of reusable Agent Skills. Currently includes make-it-make-sense, syco-killer, and mims-strategy-planner.",
+  "version": "1.8.0",
   "author": {
     "name": "jonstermash"
   },
@@ -15,6 +15,9 @@
     "simplify",
     "communication",
     "sycophancy",
-    "honesty"
+    "honesty",
+    "strategy",
+    "positioning",
+    "messaging"
   ]
 }
