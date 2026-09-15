@@ -53,7 +53,7 @@ Note what `stamp-build.sh --check` does *not* cover: it hashes only files inside
 
 ## What CI checks
 
-`.github/workflows/checks.yml` runs `scripts/check-repo.sh` on every push and pull request. Four checks, all errors that fail the build:
+`.github/workflows/checks.yml` runs `scripts/check-repo.sh` on every push and pull request. Five checks, all errors that fail the build:
 
 | Check | Catches |
 |---|---|
@@ -61,10 +61,17 @@ Note what `stamp-build.sh --check` does *not* cover: it hashes only files inside
 | Version parity | The four version sources disagreeing — the `79e2728` failure |
 | Stamp integrity | A shipped file edited without re-stamping `BUILD` |
 | Skill `name:` | A missing or mismatched `name:`, which makes the skill silently uninvocable |
+| Version moved | A shipped file edited at an unchanged version — four sources agreeing on a number that never moved, so the release reaches nobody |
+
+Parity and movement are different failures. Parity catches the sources disagreeing; movement catches them agreeing on a stale number. Re-stamping keeps `BUILD` consistent with the edit, so a release that skips the bump passes both of the older checks on its way to nowhere.
+
+**The shipped set** is everything under `plugins/make-it-make-sense/` plus `marketplace.json`, minus `BUILD` — a re-stamp that changes only the timestamp line isn't a release. Edits to `scripts/`, `.github/`, `CLAUDE.md`, or `README.md` don't require a bump; nothing an install fetches has changed. Record those under a `## [Unreleased]` heading in `CHANGELOG.md`, which the parity check skips because it only reads `## [x.y.z]`.
+
+**The baseline** is the last released state: the PR's base branch, the previous commit when you're on `main` with a clean tree, or `main` itself when you have uncommitted edits. Override it with `BASELINE_REF=<ref>`. The check compares against the working tree, so it fires before you commit — including on files you haven't `git add`ed yet, which is what a new skill folder looks like. When no baseline resolves (shallow clone, no git) it warns and skips rather than failing; the workflow therefore checks out with `fetch-depth: 0`, without which the check would quietly pass having compared nothing.
 
 Description length warns but does not fail — see the note in the script.
 
-The workflow is a thin wrapper: it checks out the repo and calls the script. Add checks to `check-repo.sh`, not to the YAML, so they stay runnable by hand.
+The workflow is a thin wrapper: it checks out the repo and calls the script. Add checks to `check-repo.sh`, not to the YAML, so they stay runnable by hand. The one thing the YAML must carry is checkout depth, since a check can't fetch the history it was denied.
 
 ## Writing a SKILL.md
 

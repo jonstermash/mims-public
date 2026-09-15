@@ -4,6 +4,28 @@ All notable changes to this project are recorded here. Format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); this project uses
 [semantic versioning](https://semver.org/).
 
+## [Unreleased]
+
+Tooling only — no shipped file changed, so there's no version to bump and nothing for an install
+to fetch.
+
+### Added
+- **`check-repo.sh` now checks that the version *moved*, not just that the four sources agree.**
+  Parity was proving the wrong half. Four sources can agree on a number that never changed, and
+  the version is the entire signal an install has to decide whether to fetch — so editing a
+  shipped file without bumping delivers the edit to nobody, which is the `79e2728` outcome
+  reached by a route that leaves no disagreement behind to find later. Re-stamping `BUILD` keeps
+  the stamp honest about the edit, so checks 2 and 3 both go green on the way there.
+  The shipped set is the plugin tree plus `marketplace.json`, minus `BUILD`: a re-stamp that
+  moves only the timestamp line is not a release. The baseline is the last released state — the
+  PR's base branch, `HEAD~1` on a clean default branch, or `HEAD` when the edit is still
+  uncommitted — and it's compared against the **working tree**, so the check fires before the
+  commit rather than after the push, and sees a brand-new skill folder that hasn't been
+  `git add`ed. Override with `BASELINE_REF`.
+- **The workflow checks out with `fetch-depth: 0`.** Without history and a default branch to
+  compare against, check 5 has nothing to measure and degrades to a skipped warning — a green
+  build that checked nothing is worse than no check, because you stop looking.
+
 ## [1.9.0]
 
 ### Changed
